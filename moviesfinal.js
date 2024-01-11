@@ -1,8 +1,6 @@
 (function() 
 {
-
-
-
+//get movies api
 const movies = 
 {
   method: 'GET',
@@ -19,6 +17,7 @@ fetch('https://api.themoviedb.org/3/discover/movie?include_adult=false&include_v
   {
     const createRow = (movie) =>
     {
+      //create the movie list
       document.querySelector("#movie-display").innerHTML +=  
       `<div class="col-6">
       <div class="card mb-3" style="max-width: 540px;">
@@ -36,12 +35,12 @@ fetch('https://api.themoviedb.org/3/discover/movie?include_adult=false&include_v
         </div>
       </div>
     </div>`
-      //console.log(movieDisplay.innerHTML);
+
     }
     for(let product of response.results)
     {
+      //go through each movie item
       createRow(product);
-      console.log();
     }
   })
     
@@ -50,6 +49,7 @@ fetch('https://api.themoviedb.org/3/discover/movie?include_adult=false&include_v
     console.error(error);
  });
 
+ //get tv show list very similar to movie list code below
 const tvShows = 
 {
   method: 'GET',
@@ -62,7 +62,34 @@ const tvShows =
   
   fetch('https://api.themoviedb.org/3/discover/tv?include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc', tvShows)
     .then(response => response.json())
-    .then(response => console.log(response))
+    .then(response =>  
+      {
+        const createRow = (show) =>
+        {
+          document.querySelector("#tv-display").innerHTML +=  
+          `<div class="col-6">
+          <div class="card mb-3" style="max-width: 540px;">
+            <div class="row g-0">
+              <div class="col-md-4">
+                <img src="https://image.tmdb.org/t/p/w500${show.poster_path}" class="img-fluid rounded-start" alt="...">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title">${show.name}</h5>
+                  <p class="card-text">${show.overview}</p>
+                  <p class="card-text"><small class="text-muted">${show.vote_average}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>`
+          //console.log(movieDisplay.innerHTML);
+        }
+        for(let product of response.results)
+        {
+          createRow(product);
+        }
+      })
     
     .catch(err => console.error(err));
 
